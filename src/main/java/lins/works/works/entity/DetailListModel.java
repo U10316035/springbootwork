@@ -35,4 +35,20 @@ public class DetailListModel {
         return this.name;
     }
 
+    public String getGender(){
+        return this.gender;
+    }
+
+    public String getBirthday(){
+        return this.birthday;
+    }
+
+    public String getHeight(){
+        return this.height;
+    }
+
+    public String getWeight(){
+        return this.weight;
+    }
+
 }
