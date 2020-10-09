@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>使用者</title>
+    <script type="text/javascript"
+            src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <table>
@@ -19,6 +21,16 @@
         </tr>
     </table>
 
-    <span th:text="${data}"></span>
+    <script>
+        jQuery.ajax({
+            type: "post",
+            url: '/detail_data',
+            dataType: "json",
+            success: function(result) {
+                alert(result);
+            } })
+    </script>
+
+
 </body>
 </html>

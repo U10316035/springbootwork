@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Document(collection = "test")
 public class DetailListModel {
     @Id
-    public String id;
+    public String _id;
     @Field("name")
     private String name;
     @Field("gender")
@@ -29,6 +29,10 @@ public class DetailListModel {
         this.birthday = birthday;
         this.height = height;
         this.weight = weight;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
 }
