@@ -77,7 +77,7 @@
                     count++;
 
                     var birth = items.birthday;
-                    if(birth==null){
+                    if(birth===''){
                         str+="<td>不明</td>";
                     }else{
                         var d = new Date();
@@ -87,7 +87,7 @@
 
                     var weight = items.weight;
                     var height = items.height;
-                    if(weight==null || height==null){
+                    if(weight==='' || height===''){
                         str+="<td>不明</td>";
                     }else{
                         height = height/100;
