@@ -10,23 +10,10 @@
     <a href="/" target="_self" title="新增/修改頁">新增/修改頁</a>
     <script>
         var DateDiff = function (sDate1, sDate2) {
-            //var oDate1 = new Date(sDate1);
             var oDate2 = new Date(sDate2);
             var iDays = parseInt(Math.abs(sDate1 - oDate2) / 1000 / 60 / 60 / 24 / 365);
             return iDays;
         };
-
-        /*function toMainPage(x){
-            location.window.href = "/";
-            $.ajax({
-                type: "post",
-                url: '/',
-                dataType: "json",
-                success: function(result) {
-                    location.window.href = "/";
-                }
-            })
-        }*/
 
         $.ajax({
             type: "post",
@@ -50,8 +37,6 @@
                     }
 
                     $(document).on("click", "#" + "td" + i, function () {
-                        //$("#" + "td" +count).on('click',function (event) {
-                        //alert(JSON.stringify(items));
                         $.ajax({
                             type: "POST",
                             url: "/to_main",
@@ -99,27 +84,6 @@
                 });
                 str+="</tbody></table>";
                 $("body").append(str);
-
-                /*for(i = 0; i < itemArray.length; i++) {
-                    $(document).on("click", "#" + "td" + i, function () {
-                        //$("#" + "td" +count).on('click',function (event) {
-                        //alert("修改成功！");
-                        $.ajax({
-                            type: "POST",
-                            url: "/to_main",
-                            data: JSON.stringify(itemArray[i]),
-                            dataType: 'json',
-                            success: function (result) {
-                                if (result != null) {
-                                    //alert("修改成功！");
-                                }
-                            },
-                            error: function (data) {
-                                //alert("修改失敗！");
-                            }
-                        });
-                    })
-                }*/
             },
             fail: function(){
                 $("body").append("讀取失敗");
