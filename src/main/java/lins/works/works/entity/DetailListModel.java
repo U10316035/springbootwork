@@ -31,6 +31,10 @@ public class DetailListModel {
         this.weight = weight;
     }
 
+    public String getId(){
+        return this._id;
+    }
+
     public String getName(){
         return this.name;
     }

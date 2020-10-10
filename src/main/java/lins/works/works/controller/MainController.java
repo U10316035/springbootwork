@@ -16,6 +16,7 @@ public class MainController {
         return "main";
     }
 
+    //pass value from detail to main page
     @RequestMapping("/to_main")
     public String fromDetail(@RequestBody DetailListModel listModel, HttpServletRequest request){
         request.setAttribute("name", listModel.getName());

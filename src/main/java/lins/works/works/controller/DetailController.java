@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import lins.works.works.entity.DetailListModel;
 import lins.works.works.repository.DetailListModelRepository;
+import lins.works.works.service.DetailListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,10 @@ import java.util.List;
 
 @Controller
 public class DetailController {
+    //@Autowired
+    //private DetailListModelRepository detailRepo;
     @Autowired
-    private DetailListModelRepository detailRepo;
+    DetailListService ds = new DetailListService();
 
     @RequestMapping("/detail")
     public String main(HttpServletRequest request){
@@ -26,9 +29,10 @@ public class DetailController {
         //return detailRepo.findAll();
     }
 
+    //get all user data in mongodb
     @RequestMapping(value = "/detail_data", produces="application/json")
     @ResponseBody
     public List<DetailListModel> data() {
-        return detailRepo.findAll();
+        return ds.findAll();
     }
 }
