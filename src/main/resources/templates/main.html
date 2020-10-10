@@ -7,8 +7,7 @@
             src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 </head>
-<body id="aaa">
-
+<body>
     <table>
         <tr>
             <td>姓名</td>
@@ -18,14 +17,41 @@
             <td>體重</td>
         </tr>
         <tr>
-            <td><input type="text" th:value="${name}"></td>
-            <td><input type="text" th:value="${gender}"></td>
-            <td><input type="text" th:value="${birthday}"></td>
-            <td><input type="text" th:value="${height}"></td>
-            <td><input type="text" th:value="${weight}"></td>
-            <td><input type="button" value="新增"></td>
-            <td><input type="button" value="修改"></td>
+            <td><input id="name" type="text" th:value="${name}"></td>
+            <td><input id="gender" type="text" placeholder="M/F" th:value="${gender}"></td>
+            <td><input id="birthday" type="text" placeholder="xxxx/xx/xx" th:value="${birthday}"></td>
+            <td><input id="height" type="text" placeholder="公分(cm)" th:value="${height}"></td>
+            <td><input id="weight" type="text" placeholder="公斤(kg)" th:value="${weight}"></td>
+            <td><input id="new" type="button" value="新增"></td>
+            <td><input id="edit" type="button" value="修改"></td>
         </tr>
     </table>
+
+    <script>
+        $(document).on("click", "#new", function () {
+            var tempJSON = JSON.stringify({name: $('#name').val(), gender: $('#gender').val(),
+                birthday: $('#birthday').val(), height: $('#height').val(), weight: $('#weight').val() })
+            //$("#" + "td" +count).on('click',function (event) {
+            //alert(JSON.stringify(items));
+            $.ajax({
+                type: "POST",
+                url: "/new_data",
+                contentType: "application/json; charset=utf-8",
+                data: tempJSON,
+                //dataType:'JSON',
+                success: function (result) {
+                    if (result != null) {
+                        alert("成功");
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                }
+            });
+        })
+    </script>
 </body>
 </html>

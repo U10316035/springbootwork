@@ -16,4 +16,8 @@ public class DetailListService {
     public List<DetailListModel> findAll(){
         return detailRepo.findAll();
     }
+
+    public void insert(DetailListModel listModel){
+        detailRepo.save(listModel);
+    }
 }
