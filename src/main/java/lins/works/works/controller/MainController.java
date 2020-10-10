@@ -34,6 +34,7 @@ public class MainController {
         return "main";
     }
 
+    //new data to mongodb
     @RequestMapping("/new_data")
     @ResponseBody
     public String newData(@RequestBody DetailListModel listModel, HttpServletRequest request){
@@ -41,6 +42,7 @@ public class MainController {
         return "ok";
     }
 
+    //edit data that already exist in mongodb
     @RequestMapping("/edit_data")
     @ResponseBody
     public String editData(@RequestBody DetailListModel listModel, HttpServletRequest request){
