@@ -40,9 +40,9 @@
                 data: tempJSON,
                 //dataType:'JSON',
                 success: function (result) {
-                    if (result != null) {
-                        alert("成功");
-
+                    if (result == "ok") {
+                        alert("新增成功");
+                        window.location.href="/detail";
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -69,9 +69,9 @@
                     data: tempJSON,
                     //dataType:'JSON',
                     success: function (result) {
-                        if (result != null) {
-                            alert("成功");
-
+                        if (result == "ok") {
+                            alert("修改成功");
+                            window.location.href="/detail";
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
