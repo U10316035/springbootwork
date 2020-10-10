@@ -20,4 +20,8 @@ public class DetailListService {
     public void insert(DetailListModel listModel){
         detailRepo.save(listModel);
     }
+
+    public void edit(DetailListModel listModel){
+        detailRepo.save(listModel);
+    }
 }

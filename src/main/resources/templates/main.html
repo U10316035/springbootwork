@@ -27,7 +27,7 @@
         </tr>
     </table>
 
-    <script>
+    <script th:inline="javascript">
         $(document).on("click", "#new", function () {
             var tempJSON = JSON.stringify({name: $('#name').val(), gender: $('#gender').val(),
                 birthday: $('#birthday').val(), height: $('#height').val(), weight: $('#weight').val() })
@@ -51,6 +51,38 @@
                     alert(textStatus);
                 }
             });
+        })
+
+        $(document).on("click", "#edit", function () {
+            var id = [[${id}]];
+            if(id!=null) {
+                var tempJSON = JSON.stringify({ _id: id,
+                    name: $('#name').val(), gender: $('#gender').val(),
+                    birthday: $('#birthday').val(), height: $('#height').val(), weight: $('#weight').val()
+                })
+                //$("#" + "td" +count).on('click',function (event) {
+                //alert(JSON.stringify(items));
+                $.ajax({
+                    type: "POST",
+                    url: "/edit_data",
+                    contentType: "application/json; charset=utf-8",
+                    data: tempJSON,
+                    //dataType:'JSON',
+                    success: function (result) {
+                        if (result != null) {
+                            alert("成功");
+
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.readyState);
+                        alert(textStatus);
+                    }
+                });
+            }else{
+                alert("無原始資料");
+            }
         })
     </script>
 </body>

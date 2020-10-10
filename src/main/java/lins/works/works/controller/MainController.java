@@ -24,6 +24,7 @@ public class MainController {
     //pass value from detail to main page
     @RequestMapping("/to_main")
     public String fromDetail(@RequestBody DetailListModel listModel, HttpServletRequest request){
+        request.setAttribute("id", listModel.getId());
         request.setAttribute("name", listModel.getName());
         request.setAttribute("gender", listModel.getGender());
         request.setAttribute("birthday", listModel.getBirthday());
@@ -33,8 +34,12 @@ public class MainController {
     }
 
     @RequestMapping("/new_data")
-    public String newData(@RequestBody DetailListModel listModel, HttpServletRequest request){
+    public void newData(@RequestBody DetailListModel listModel, HttpServletRequest request){
         ds.insert(listModel);
-        return "main";
+    }
+
+    @RequestMapping("/edit_data")
+    public void editData(@RequestBody DetailListModel listModel, HttpServletRequest request){
+        ds.edit(listModel);
     }
 }
