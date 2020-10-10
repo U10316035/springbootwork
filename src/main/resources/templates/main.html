@@ -8,7 +8,7 @@
 
 </head>
 <body>
-    <a href="/detail" target="_blank" title="列表頁">列表頁</a>
+    <a href="/detail" target="_self" title="列表頁">列表頁</a>
     <table>
         <tr>
             <td>姓名</td>
@@ -20,7 +20,7 @@
         <tr>
             <td><input id="name" type="text" th:value="${name}"></td>
             <td><input id="gender" type="text" placeholder="M/F" th:value="${gender}"></td>
-            <td><input id="birthday" type="text" placeholder="xxxx/xx/xx" th:value="${birthday}"></td>
+            <td><input id="birthday" type="text" placeholder="YYYY/MM/DD" th:value="${birthday}"></td>
             <td><input id="height" type="text" placeholder="公分(cm)" th:value="${height}"></td>
             <td><input id="weight" type="text" placeholder="公斤(kg)" th:value="${weight}"></td>
             <td><input id="new" type="button" value="新增"></td>
@@ -29,35 +29,48 @@
     </table>
 
     <script th:inline="javascript">
-        $(document).on("click", "#new", function () {
-            var tempJSON = JSON.stringify({name: $('#name').val(), gender: $('#gender').val(),
-                birthday: $('#birthday').val(), height: $('#height').val(), weight: $('#weight').val() })
-            //$("#" + "td" +count).on('click',function (event) {
-            //alert(JSON.stringify(items));
-            $.ajax({
-                type: "POST",
-                url: "/new_data",
-                contentType: "application/json; charset=utf-8",
-                data: tempJSON,
-                //dataType:'JSON',
-                success: function (result) {
-                    if (result == "ok") {
-                        alert("新增成功");
-                        window.location.href="/detail";
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
+        function dateValidationCheck(str) {
+            var re = new RegExp("^([0-9]{4})[./]{1}([0-9]{1,2})[./]{1}([0-9]{1,2})$");
+            var strDataValue;
+            var infoValidation = true;
+            if ((strDataValue = re.exec(str)) != null) {
+                var i;
+                i = parseFloat(strDataValue[1]);
+                if (i <= 0 || i > 9999) { /*年*/
+                    infoValidation = false;
                 }
-            });
-        })
+                i = parseFloat(strDataValue[2]);
+                if (i <= 0 || i > 12) { /*月*/
+                    infoValidation = false;
+                }
+                i = parseFloat(strDataValue[3]);
+                if (i <= 0 || i > 31) { /*日*/
+                    infoValidation = false;
+                }
+            } else {
+                if(str=='') infoValidation = true;
+                else infoValidation = false;
+            }
+            if (!infoValidation) {
+                alert("生日請輸入 YYYY/MM/DD 日期格式");
+            }
+            return infoValidation;
+        }
 
-        $(document).on("click", "#edit", function () {
-            var id = [[${id}]];
-            if(id!=null) {
-                var tempJSON = JSON.stringify({ _id: id,
+        function check(){
+            var isOk = false;
+            var name = document.getElementById("name").value;
+            var gender = document.getElementById("gender").value;
+            var birthday = document.getElementById("birthday").value;
+            if(name!='' && (gender=='M'||'F') && dateValidationCheck(birthday)) isOk = true;
+            if(name=='') alert("請輸入姓名");
+            if(gender!='M' && gender!='F') alert("性別請輸入 M 或 F");
+            return isOk;
+        }
+
+        $(document).on("click", "#new", function () {
+            if(check()) {
+                var tempJSON = JSON.stringify({
                     name: $('#name').val(), gender: $('#gender').val(),
                     birthday: $('#birthday').val(), height: $('#height').val(), weight: $('#weight').val()
                 })
@@ -65,14 +78,14 @@
                 //alert(JSON.stringify(items));
                 $.ajax({
                     type: "POST",
-                    url: "/edit_data",
+                    url: "/new_data",
                     contentType: "application/json; charset=utf-8",
                     data: tempJSON,
                     //dataType:'JSON',
                     success: function (result) {
                         if (result == "ok") {
-                            alert("修改成功");
-                            window.location.href="/detail";
+                            alert("新增成功");
+                            window.location.href = "/detail";
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -81,8 +94,41 @@
                         alert(textStatus);
                     }
                 });
-            }else{
-                alert("無原始資料");
+            }
+        })
+
+        $(document).on("click", "#edit", function () {
+            if(check()) {
+                var id = [[${id}]];
+                if (id != null) {
+                    var tempJSON = JSON.stringify({
+                        _id: id,
+                        name: $('#name').val(), gender: $('#gender').val(),
+                        birthday: $('#birthday').val(), height: $('#height').val(), weight: $('#weight').val()
+                    })
+                    //$("#" + "td" +count).on('click',function (event) {
+                    //alert(JSON.stringify(items));
+                    $.ajax({
+                        type: "POST",
+                        url: "/edit_data",
+                        contentType: "application/json; charset=utf-8",
+                        data: tempJSON,
+                        //dataType:'JSON',
+                        success: function (result) {
+                            if (result == "ok") {
+                                alert("修改成功");
+                                window.location.href = "/detail";
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status);
+                            alert(XMLHttpRequest.readyState);
+                            alert(textStatus);
+                        }
+                    });
+                } else {
+                    alert("無原始資料");
+                }
             }
         })
     </script>
