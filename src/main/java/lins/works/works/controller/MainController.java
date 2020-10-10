@@ -17,8 +17,12 @@ public class MainController {
     }
 
     @RequestMapping("/to_main")
-    public String fromDetail(DetailListModel listModel){
-        //request.setAttribute("key", "hello world");
+    public String fromDetail(@RequestBody DetailListModel listModel, HttpServletRequest request){
+        request.setAttribute("name", listModel.getName());
+        request.setAttribute("gender", listModel.getGender());
+        request.setAttribute("birthday", listModel.getBirthday());
+        request.setAttribute("height", listModel.getHeight());
+        request.setAttribute("weight", listModel.getWeight());
         return "main";
     }
 }

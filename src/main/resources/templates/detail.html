@@ -56,11 +56,15 @@
                         $.ajax({
                             type: "POST",
                             url: "/to_main",
+                            contentType: "application/json; charset=utf-8",
                             data: JSON.stringify(items),
-                            dataType: 'json',
+                            //dataType:'JSON',
                             success: function (result) {
                                 if (result != null) {
-                                    alert("success");
+                                    //alert(result);
+                                    var newDoc = document.open("text/html", "replace");
+                                    newDoc.write(result);
+                                    newDoc.close();
                                 }
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
