@@ -33,7 +33,6 @@
             url: '/detail_data',
             dataType: "json",
             success: function(result) {
-                var itemArray = [];
                 var count=0;
                 var str = "<table style='border:3px #cccccc solid;' cellpadding=\"10\" border='1'>" +
                                 "<thead>" +
@@ -43,12 +42,11 @@
                                 "</thead>" +
                                 "<tbody>";
                 $.each(result,function(i,items){
-                    itemArray.push(items);
                     str+="<tr>";
-                    if(items.gender=="M"){
-                        str+="<td id=" + "'" + "td" + count + "'" + "><span style='color:blue;'>"+items.name+"</span></td>";
+                    if(items.gender==="M"){
+                        str+="<td id=" + "'" + "td" + count + "'" + " style='cursor: pointer;'><span style='color:blue;'>"+items.name+"</span></td>";
                     }else{
-                        str+="<td id=" + "'" + "td" + count + "'" + "><span style='color:red;'>"+items.name+"</span></td>";
+                        str+="<td id=" + "'" + "td" + count + "'" + " style='cursor: pointer;'><span style='color:red;'>"+items.name+"</span></td>";
                     }
 
                     $(document).on("click", "#" + "td" + i, function () {
