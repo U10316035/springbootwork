@@ -51,4 +51,24 @@ public class DetailListModel {
         return this.weight;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+    public void setBirthday(String birthday){
+        this.birthday = birthday;
+    }
+
+    public void setHeight(String height){
+        this.height = height;
+    }
+
+    public void setWeight(String weight){
+        this.weight = weight;
+    }
+
 }

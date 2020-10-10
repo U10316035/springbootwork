@@ -7,69 +7,124 @@
             src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-    <table style="border:3px #cccccc solid;" cellpadding="10" border='1'>
+    <script>
+        var DateDiff = function (sDate1, sDate2) {
+            //var oDate1 = new Date(sDate1);
+            var oDate2 = new Date(sDate2);
+            var iDays = parseInt(Math.abs(sDate1 - oDate2) / 1000 / 60 / 60 / 24 / 365);
+            return iDays;
+        };
 
-        <tbody>
-            <script>
-                var DateDiff = function (sDate1, sDate2) {
-                    //var oDate1 = new Date(sDate1);
-                    var oDate2 = new Date(sDate2);
-                    var iDays = parseInt(Math.abs(sDate1 - oDate2) / 1000 / 60 / 60 / 24 / 365);
-                    return iDays;
-                };
-                $.ajax({
-                    type: "post",
-                    url: '/detail_data',
-                    dataType: "json",
-                    success: function(result) {
-                        var str = "<thead>" +
+        /*function toMainPage(x){
+            location.window.href = "/";
+            $.ajax({
+                type: "post",
+                url: '/',
+                dataType: "json",
+                success: function(result) {
+                    location.window.href = "/";
+                }
+            })
+        }*/
+
+        $.ajax({
+            type: "post",
+            url: '/detail_data',
+            dataType: "json",
+            success: function(result) {
+                var itemArray = [];
+                var count=0;
+                var str = "<table style='border:3px #cccccc solid;' cellpadding=\"10\" border='1'>" +
+                                "<thead>" +
                                     "<td>姓名</td>" +
                                     "<td>年紀</td>" +
                                     "<td>BMI</td>" +
-                                "</thead>";
-                        $.each(result,function(i,items){
-                            str+="<tr>";
-                            if(items.gender=="M"){
-                                str+="<td><span style='color:blue'>"+items.name+"</span></td>";
-                            }else{
-                                str+="<td><span style='color:red'>"+items.name+"</span></td>";
-                            }
-
-                            var birth = items.birthday;
-                            if(birth==null){
-                                str+="<td>不明</td>";
-                            }else{
-                                var d = new Date();
-                                var n = d.getTime();
-                                str+="<td>"+DateDiff(n,birth)+"</td>";
-                            }
-
-                            var weight = items.weight;
-                            var height = items.height;
-                            if(weight==null || height==null){
-                                str+="<td>不明</td>";
-                            }else{
-                                height = height/100;
-                                var bmi = weight/(height*height);
-                                bmi = bmi.toFixed(2);
-                                str+="<td>"+bmi+"</td>";
-                            }
-
-                            str+="</tr>";
-                        });
-                        $("tbody").append(str);
-                    },
-                    fail: function(){
-                        $("body").append("讀取失敗");
+                                "</thead>" +
+                                "<tbody>";
+                $.each(result,function(i,items){
+                    itemArray.push(items);
+                    str+="<tr>";
+                    if(items.gender=="M"){
+                        str+="<td id=" + "'" + "td" + count + "'" + "><span style='color:blue;'>"+items.name+"</span></td>";
+                    }else{
+                        str+="<td id=" + "'" + "td" + count + "'" + "><span style='color:red;'>"+items.name+"</span></td>";
                     }
-                })
-            </script>
-        </tbody>
 
-    </table>
+                    $(document).on("click", "#" + "td" + i, function () {
+                        //$("#" + "td" +count).on('click',function (event) {
+                        //alert(JSON.stringify(items));
+                        $.ajax({
+                            type: "POST",
+                            url: "/to_main",
+                            data: JSON.stringify(items),
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result != null) {
+                                    alert("success");
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert(XMLHttpRequest.status);
+                                alert(XMLHttpRequest.readyState);
+                                alert(textStatus);
+                            }
+                        });
+                    })
 
+                    count++;
 
+                    var birth = items.birthday;
+                    if(birth==null){
+                        str+="<td>不明</td>";
+                    }else{
+                        var d = new Date();
+                        var n = d.getTime();
+                        str+="<td>"+DateDiff(n,birth)+"</td>";
+                    }
 
+                    var weight = items.weight;
+                    var height = items.height;
+                    if(weight==null || height==null){
+                        str+="<td>不明</td>";
+                    }else{
+                        height = height/100;
+                        var bmi = weight/(height*height);
+                        bmi = bmi.toFixed(2);
+                        str+="<td>"+bmi+"</td>";
+                    }
+                    str+="</tr>";
+                });
+                str+="</tbody></table>";
+                $("body").append(str);
 
+                /*for(i = 0; i < itemArray.length; i++) {
+                    $(document).on("click", "#" + "td" + i, function () {
+                        //$("#" + "td" +count).on('click',function (event) {
+                        //alert("修改成功！");
+                        $.ajax({
+                            type: "POST",
+                            url: "/to_main",
+                            data: JSON.stringify(itemArray[i]),
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result != null) {
+                                    //alert("修改成功！");
+                                }
+                            },
+                            error: function (data) {
+                                //alert("修改失敗！");
+                            }
+                        });
+                    })
+                }*/
+            },
+            fail: function(){
+                $("body").append("讀取失敗");
+            },
+            error: function(){
+                $("body").append("讀取失敗");
+            }
+        })
+    </script>
 </body>
 </html>
